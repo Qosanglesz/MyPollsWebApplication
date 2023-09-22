@@ -9,6 +9,9 @@ class Questions(models.Model):
     def __str__(self):
         return self.question_text
     
+    def is_polls_available(self):
+        return not((timezone.now > self.end_date) or (timezone.now < self.public_date))
+    
 class choice(models.Model):
     questions = models.ForeignKey(Questions, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=25)

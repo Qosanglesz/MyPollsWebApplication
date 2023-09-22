@@ -11,7 +11,11 @@
         <h2>No polls available now</h2>
     {% else %}
         {% for i in all_question %}
-            <h2>{{ i }}</h2>
+            {% if i.is_polls_avialable == true%} 
+                <div><a href="#">{{i}}</a> status:true</div>
+            {% else %}
+            <div><a href="detail/{{i.id}}">{{i}}</a> status:true</div>
+            {% endif %}
         {% endfor %}
     {% endif %}
 </body>
