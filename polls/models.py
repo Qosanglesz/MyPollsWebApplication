@@ -1,6 +1,9 @@
+
 from django.db import models
 from django.utils import timezone
-from datetime import timedelta
+from datetime import timedelta, datetime
+
+
 class Questions(models.Model):
     question_text = models.CharField(max_length=50)
     public_date = models.DateField(default=timezone.now, null=True)
@@ -9,9 +12,11 @@ class Questions(models.Model):
     def __str__(self):
         return self.question_text
     
-    def is_polls_available(self):
-        return not((timezone.now > self.end_date) or (timezone.now < self.public_date))
-    
+    def can_vote(self):
+        now = timezone.now().date()
+        return self.public_date <= now <= self.end_date
+
+
 class choice(models.Model):
     questions = models.ForeignKey(Questions, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=25)

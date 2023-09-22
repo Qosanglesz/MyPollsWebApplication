@@ -7,16 +7,24 @@
 </head>
 <body>
     <h1>Available polls</h1>
-    {% if all_question|length == 0 %}
-        <h2>No polls available now</h2>
-    {% else %}
+    {% if messages %}
+        <div class="messages">
+        {% for message in messages %}
+            <h2>{{message}}</h2>
+        {% endfor %}
+        </div>
+
+    {% endif %}
+    {% if all_question %}
         {% for i in all_question %}
-            {% if i.is_polls_avialable == true%} 
-                <div><a href="#">{{i}}</a> status:true</div>
+            {% if i.can_vote %} 
+                <div><a href="detail/{{i.id}}">{{i}}</a> status:open</div>
             {% else %}
-            <div><a href="detail/{{i.id}}">{{i}}</a> status:true</div>
+                <div><a href="{% url 'detail' i.id %}">{{i}}</a> status:close</div>
             {% endif %}
         {% endfor %}
+    {% else %}
+    <h2>no polls available now</h2>
     {% endif %}
 </body>
 </html>
