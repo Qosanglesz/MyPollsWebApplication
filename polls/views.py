@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.urls import reverse
 from polls.models import Questions
 from django.contrib import messages
 
@@ -16,3 +16,14 @@ def detail(request, question_id):
         return redirect('/')
     
     return render(request, 'detail.html', context)
+
+def vote(request, question_id):
+    if request.method == 'POST':
+        question = Questions.objects.get(id=question_id)
+        selected_choice = question.choice_set.get(choice_text = request.POST.get('choice'))
+        selected_choice.votes += 1
+        selected_choice.save()
+        return redirect(reverse('result', args=(question.id,)))
+    
+def result(request, question_id):
+    return render(request, "result.html")
