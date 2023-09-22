@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    <h1>Available polls</h1>
+    {% if all_question|length == 0 %}
+        <h2>No polls available now</h2>
+    {% else %}
+        {% for i in all_question %}
+            <h2>{{ i }}</h2>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
